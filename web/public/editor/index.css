@@ -1,0 +1,28 @@
+#project-notin-warn {
+    color: #666;
+}
+
+#project-wrap {
+}
+
+#project-wrap h3 {
+    margin: 10px 0;
+    line-height: 2;
+    color: #6F96D4;
+}
+
+#project-wrap dl {
+    overflow: auto;
+    line-height: 2;
+    margin-bottom: 30px;
+}
+
+#project-wrap dt {
+    float: left;
+    clear: left;
+    width: 150px;
+}
+
+#project-wrap dd {
+    float: left;
+}
