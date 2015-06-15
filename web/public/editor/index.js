@@ -32,24 +32,26 @@ define(function (require) {
 
                 var amdInfo = data.amd;
                 var amdEl = document.getElementById('project-amd-config');
+                var amdFileEl = amdEl.getElementsByTagName('span')[0];
                 if (!amdInfo) {
                     amdEl.removeAttribute('data-file');
-                    amdEl.innerHTML = WARN_NOAMD;
+                    amdFileEl.innerHTML = WARN_NOAMD;
                 }
                 else {
                     amdEl.setAttribute('data-file', amdInfo.file);
-                    amdEl.innerHTML = path.basename(amdInfo.file);
+                    amdFileEl.innerHTML = path.basename(amdInfo.file);
                 }
 
                 var buildInfo = data.build;
                 var buildEl = document.getElementById('project-build-config');
+                var buildFileEl = buildEl.getElementsByTagName('span')[0];
                 if (!buildInfo) {
                     buildEl.removeAttribute('data-file');
-                    buildEl.innerHTML = WARN_NOBUILD;
+                    buildFileEl.innerHTML = WARN_NOBUILD;
                 }
                 else {
                     buildEl.setAttribute('data-file', buildInfo.file);
-                    buildEl.innerHTML = path.basename(buildInfo.file);
+                    buildFileEl.innerHTML = path.basename(buildInfo.file);
                 }
             }
         });
@@ -59,12 +61,14 @@ define(function (require) {
         // TODO: goto project root
     }
 
-    function amdClicker() {
-        // TODO: preview amd config
-    }
+    function confFileClicker(e) {
+        e = e || window.event;
+        var target = e.target || e.srcElement;
+        var file = this.getAttribute('data-file');
 
-    function buildClicker() {
-        // TODO: preview build config
+        if (file && target.tagName === 'I') {
+            require('partial/preview')(file);
+        }
     }
 
     function cmdChanger (cwd) {
@@ -75,8 +79,8 @@ define(function (require) {
         load: function () {
             getInfo(cwdModule.get());
             document.getElementById('project-dir').onclick = dirClicker;
-            document.getElementById('project-amd-config').onclick = amdClicker;
-            document.getElementById('project-build-config').onclick = buildClicker;
+            document.getElementById('project-amd-config').onclick = confFileClicker;
+            document.getElementById('project-build-config').onclick = confFileClicker;
             cwdModule.on('change', cmdChanger);
         },
 

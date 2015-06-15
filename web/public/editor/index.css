@@ -26,3 +26,18 @@
 #project-wrap dd {
     float: left;
 }
+
+#project-wrap dd i {
+    cursor: pointer;
+    color: #5072A8;
+    margin-left: 8px;
+    transition: color .3s;
+}
+
+#project-wrap dd i:hover {
+    color: #203C6A;
+}
+
+#project-wrap dd:not([data-file]) i {
+    display: none;
+}
