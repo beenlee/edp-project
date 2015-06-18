@@ -112,7 +112,11 @@ define(function (require) {
                 currentProject = data;
                 warnEl.style.display = 'none';
                 wrapEl.style.display = '';
-                getDirEl().innerHTML = data.dir;
+
+                var dirEl = getDirEl();
+                var dirInfoEl = dirEl.getElementsByTagName('span')[0];
+                dirInfoEl.innerHTML = data.dir;
+                dirEl.setAttribute('data-file', data.dir);
 
                 var amdInfo = data.amd;
                 var amdEl = getAmdConfEl();
@@ -222,9 +226,16 @@ define(function (require) {
      * 项目目录区域点击的处理函数
      *
      * @inner
+     * @param {Object} e 事件对象
      */
-    function dirClicker() {
-        // TODO: goto project root
+    function dirClicker(e) {
+        e = e || window.event;
+        var target = e.target || e.srcElement;
+        var dir = this.getAttribute('data-file');
+
+        if (currentProject && dir && target.tagName === 'I') {
+            require('partial/cwd').set(dir, 1);
+        }
     }
 
     /**

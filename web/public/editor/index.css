@@ -39,11 +39,6 @@
     display: none;
 }
 
-#project-dir {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
 .project-checking {
     color: #888;
 }
