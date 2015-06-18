@@ -2,9 +2,6 @@
     color: #666;
 }
 
-#project-wrap {
-}
-
 #project-wrap h3 {
     margin: 10px 0;
     line-height: 2;
@@ -41,3 +38,60 @@
 #project-wrap dd:not([data-file]) i {
     display: none;
 }
+
+#project-dir {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.project-checking {
+    color: #888;
+}
+
+#project-check {
+    margin-top: 10px;
+}
+
+#project-check h5 {
+    margin: 0;
+    padding: 2px 10px;
+    background: #CEE5BB;
+    color: #6C805C;
+    line-height: 2;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+#project-check h5 b {
+    display: inline-block;
+    width: 100px;
+}
+
+#project-check .project-check-item-pain {
+    background: #E5BBBB;
+    color: #805C5F;
+}
+
+#project-check ul {
+    list-style: none;
+}
+
+#project-check li {
+    background: #e7e7e7;
+    font-size: 12px;
+    line-height: 2;
+    padding: 2px 15px;
+}
+
+#project-check-start .fa-spin {
+    display: none;
+}
+
+#project-check-start:disabled .fa-spin {
+    display: inline;
+}
+
+#project-check-start:disabled .fa-play {
+    display: none;
+}
+
