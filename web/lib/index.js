@@ -73,21 +73,26 @@ function infoHandler(request, response) {
 }
 
 var Checkers = [
-    require('./checker/amd')
+    require('./checker/amd'),
+    require('./checker/build')
 ];
 
 function checkHandler(request, response) {
     var dir = request.body.dir;
+    var projectFiles = [];
+    readDir(dir, dir, projectFiles);
 
     var checkers = [];
     Checkers.forEach(function (Checker) {
-        checkers.push(new Checker({
-            projectDir: dir
-        }));
+        var checker = new Checker({
+            projectDir: dir,
+            projectFiles: projectFiles.slice(0)
+        });
+
+        checkers.push(checker);
+        checker.beforeAll();
     });
 
-    var projectFiles = [];
-    readDir(dir, dir, projectFiles);
     projectFiles.forEach(function (file) {
         checkers.forEach(function (checker) {
             checker.check(file);
@@ -96,6 +101,7 @@ function checkHandler(request, response) {
 
     var json = {dir: dir, items: []};
     checkers.forEach(function (checker) {
+        checker.afterAll();
         var checkResult = checker.getResult();
         if (checkResult) {
             json.items.push(checkResult);

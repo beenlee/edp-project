@@ -44,6 +44,18 @@ Checker.prototype.addDetail = function (detail) {
 Checker.prototype.check = function (file) {};
 
 /**
+ * 检测前的处理动作
+ *
+ * @param {Object} options 参数对象
+ */
+Checker.prototype.beforeAll = function () {};
+
+/**
+ * 检测后的处理动作
+ */
+Checker.prototype.afterAll = function () {};
+
+/**
  * 获取检测结果
  *
  * @return {Object}
