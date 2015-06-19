@@ -50,9 +50,9 @@ Checker.prototype.readConf = function () {
 
     this.jsCompressorFileCount = 0;
 
-    // 通过分析ast，看getProcessors方法需要什么Processor
-    // 然后生成假的，并注入
-    // 否则getProcessors方法无法返回对象，因为当前环境不存在需要的Processor
+    // 通过分析ast，抽取new JsCompressor
+    // 然后通过假的构造器，执行一遍，获得伪造的对象
+    // 因为这里的检测只需要files option
     var ast = esprima.parse(confContent, {});
     var jsCompressor;
     estraverse.traverse(ast, {
@@ -74,7 +74,13 @@ Checker.prototype.readConf = function () {
                         }
                     )
                 );
-                jsCompressor = jsCompressorCreator();
+
+                // 如果JsCompressor初始化参数中包含复杂表达式导致执行失败
+                // 这事就不干了
+                try {
+                    jsCompressor = jsCompressorCreator();
+                }
+                catch (ex) {}
             }
         }
     });
