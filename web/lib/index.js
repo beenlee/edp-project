@@ -74,7 +74,8 @@ function infoHandler(request, response) {
 
 var Checkers = [
     require('./checker/amd'),
-    require('./checker/build')
+    require('./checker/build'),
+    require('./checker/bom')
 ];
 
 function checkHandler(request, response) {
