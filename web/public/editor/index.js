@@ -279,6 +279,7 @@ define(function (require) {
             getAmdConfEl().onclick =
             getBuildConfEl().onclick =
             getStartCheckEl().onclick = null;
+            currentProject = null;
             cwdModule.un('change', cwdChanger);
         }
     };
