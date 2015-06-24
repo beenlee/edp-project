@@ -6,6 +6,7 @@
 define(function (require) {
     var path = require('path');
     var cwdModule = require('partial/cwd');
+    var textPreviewer = require('partial/previewer/text');
 
     var WARN_NOAMD = '未发现AMD配置';
     var WARN_NOBUILD = '未发现Build配置';
@@ -115,10 +116,6 @@ define(function (require) {
                     return;
                 }
 
-                if (currentProject && data.dir === currentProject.dir) {
-                    return;
-                }
-
                 currentProject = data;
                 warnEl.style.display = 'none';
                 wrapEl.style.display = '';
@@ -128,7 +125,7 @@ define(function (require) {
                 dirInfoEl.innerHTML = data.dir;
                 dirEl.setAttribute('data-file', data.dir);
 
-                showAmdInfo(data.amd)
+                showAmdInfo(data.amd);
 
 
                 var buildInfo = data.build;
@@ -154,13 +151,19 @@ define(function (require) {
         + '<!-- /for -->';
 
     var PATHS_TPL = ''
-        + '<!-- for: ${paths} as ${name}, ${value} -->'
+        + '<!-- for: ${paths} as ${value}, ${name} -->'
         +   '<li>${name} - ${value}</li>'
         + '<!-- /for -->';
 
     var pkgsRenderer = require('etpl').compile(PKGS_TPL);
     var pathsRenderer = require('etpl').compile(PATHS_TPL);
 
+    /**
+     * 显示项目的amd信息
+     *
+     * @inner
+     * @param {Object} info AMD配置信息
+     */
     function showAmdInfo(info) {
         var el = getAmdConfEl();
         var fileEl = el.getElementsByTagName('span')[0];
@@ -181,9 +184,23 @@ define(function (require) {
             );
             document.getElementById('project-amd-baseurl').innerHTML = baseUrl;
             document.getElementById('project-amd-paths').innerHTML =
-                pathsRenderer({packages: info.conf.paths || {}});
+                pathsRenderer({paths: info.conf.paths || {}});
             document.getElementById('project-amd-pkgs').innerHTML =
                 pkgsRenderer({packages: info.conf.packages || []});
+        }
+    }
+
+    /**
+     * AMD配置文件变更监听函数
+     *
+     * @inner
+     * @param {Object} e 变更事件对象
+     */
+    function amdConfChange(e) {
+        if (currentProject && currentProject.amd
+            && currentProject.amd.file === e.file
+        ) {
+            getInfo(cwdModule.get());
         }
     }
 
@@ -321,6 +338,8 @@ define(function (require) {
             getBuildConfEl().onclick = confFileClicker;
             getStartCheckEl().onclick = startCheck;
             getRepoInfoEl().onclick = viewRepoInfo;
+
+            textPreviewer.on('save', amdConfChange);
             cwdModule.on('change', cwdChanger);
         },
 
@@ -331,6 +350,8 @@ define(function (require) {
             getStartCheckEl().onclick =
             getRepoInfoEl().onclick = null;
             currentProject = null;
+
+            textPreviewer.un('save', amdConfChange);
             cwdModule.un('change', cwdChanger);
         }
     };
