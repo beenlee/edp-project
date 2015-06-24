@@ -11,7 +11,6 @@
 #project-wrap dl {
     overflow: auto;
     line-height: 2;
-    margin-bottom: 30px;
 }
 
 #project-wrap dt {
@@ -37,6 +36,10 @@
 
 #project-wrap dd:not([data-file]) i {
     display: none;
+}
+
+#project-base-op {
+    margin: 10px 0 30px;
 }
 
 .project-checking {
@@ -88,5 +91,30 @@
 
 #project-check-start:disabled .fa-play {
     display: none;
+}
+
+#project-base-op i {
+    margin-right: 3px;
+}
+
+#project-repo-info,
+#project-base-op a:link,
+#project-base-op a:visited,
+#project-base-op a:active {
+    outline: 0;
+    padding: 2px 5px;
+    border: 0;
+    background: #B9DEF7;
+    color: #2776A4;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 12px;
+    font-family: "Avenir Next", Helvetica, Arial, "Lantinghei SC", "Microsoft YaHei", sans-serif;
+}
+
+#project-repo-info:hover,
+#project-base-op a:hover {
+    background: #96CBEF;
+    color: #1F516F;
 }
 

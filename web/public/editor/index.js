@@ -74,6 +74,16 @@ define(function (require) {
     }
 
     /**
+     * 获取查看版本控制信息按钮
+     *
+     * @inner
+     * @return {HTMLElement}
+     */
+    function getRepoInfoEl() {
+        return document.getElementById('project-repo-info');
+    }
+
+    /**
      * 当前项目信息对象
      *
      * @inner
@@ -264,6 +274,15 @@ define(function (require) {
         getInfo(cwd);
     }
 
+    /**
+     * 查看版本控制信息
+     *
+     * @inner
+     */
+    function viewRepoInfo() {
+        require('partial/cwd').showRepoInfo();
+    }
+
     return {
         load: function () {
             getInfo(cwdModule.get());
@@ -271,6 +290,7 @@ define(function (require) {
             getAmdConfEl().onclick = confFileClicker;
             getBuildConfEl().onclick = confFileClicker;
             getStartCheckEl().onclick = startCheck;
+            getRepoInfoEl().onclick = viewRepoInfo;
             cwdModule.on('change', cwdChanger);
         },
 
@@ -278,7 +298,8 @@ define(function (require) {
             getDirEl().onclick =
             getAmdConfEl().onclick =
             getBuildConfEl().onclick =
-            getStartCheckEl().onclick = null;
+            getStartCheckEl().onclick =
+            getRepoInfoEl().onclick = null;
             currentProject = null;
             cwdModule.un('change', cwdChanger);
         }
