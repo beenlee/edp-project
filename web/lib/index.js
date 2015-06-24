@@ -9,6 +9,7 @@ var async = require('async');
 var getProjectInfo = require('../../lib/get-info');
 var moduleMgr = require('../../lib/module');
 var buildMgr = require('../../lib/build');
+var metaMgr = require('../../lib/metadata');
 
 exports = module.exports = function (app) {
     app.post('/edp-project/info', infoHandler);
@@ -32,6 +33,14 @@ function infoHandler(request, response) {
             function amdInfo(callback) {
                 var amdConfFile = moduleMgr.getConfigFile(projectInfo);
                 var amdConf = moduleMgr.getConfig(projectInfo);
+                var projectMeta = metaMgr.get(projectInfo);
+                var projectDeps = projectMeta.dependencies || {};
+
+                if (amdConf.packages instanceof Array) {
+                    amdConf.packages.forEach(function (pkg) {
+                        pkg.depVersion = projectDeps[pkg.name] || 'unknown';
+                    });
+                }
 
                 callback(
                     null,

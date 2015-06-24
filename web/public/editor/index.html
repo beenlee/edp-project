@@ -5,21 +5,30 @@ title: 项目管理
 <p style="display:none" id="project-notin-warn">当前目录不属于一个项目。</p>
 
 <div style="display:none" id="project-wrap">
+    <div id="project-base-op">
+        <a href="#web!edp-web/finder" id="project-finder"><i class="fa fa-folder"></i>查看目录</a>
+        <button id="project-repo-info"><i class="fa fa-database"></i>版本控制信息</button>
+    </div>
+
     <h3>项目信息</h3>
     <dl>
         <dt>项目根目录</dt>
         <dd id="project-dir"><span></span><i class="fa fa-hand-o-right"></i></dd>
 
         <dt>AMD 配置信息</dt>
-        <dd id="project-amd-config"><span></span><i class="fa fa-pencil-square"></i></dd>
+        <dd id="project-amd-config"><span></span><i class="fa fa-pencil-square"></i>
+            <div id="project-amd-config-info">
+                <div><u>baseUrl:</u> <span id="project-amd-baseurl"></span></div>
+                <u>paths:</u>
+                <ul id="project-amd-paths"></ul>
+                <u>packages:</u>
+                <ul id="project-amd-pkgs"></ul>
+            </div>
+        </dd>
 
         <dt>EDP Build 配置</dt>
         <dd id="project-build-config"><span></span><i class="fa fa-pencil-square"></i></dd>
     </dl>
-    <div id="project-base-op">
-        <a href="#web!edp-web/finder" id="project-finder"><i class="fa fa-folder"></i>查看目录</a>
-        <button id="project-repo-info"><i class="fa fa-database"></i>版本控制信息</button>
-    </div>
 
     <h3>项目优化建议</h3>
     <button id="project-check-start" class="btn btn-primary"><i class="fa fa-circle-o-notch fa-spin"></i><i class="fa fa-play"></i><span>开始检测</span></button>

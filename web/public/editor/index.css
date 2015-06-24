@@ -3,7 +3,7 @@
 }
 
 #project-wrap h3 {
-    margin: 10px 0;
+    margin: 20px 0 10px;
     line-height: 2;
     color: #6F96D4;
 }
@@ -39,7 +39,7 @@
 }
 
 #project-base-op {
-    margin: 10px 0 30px;
+    margin: 10px 0 20px;
 }
 
 .project-checking {
@@ -116,5 +116,16 @@
 #project-base-op a:hover {
     background: #96CBEF;
     color: #1F516F;
+}
+
+#project-amd-config-info {
+    width: 500px;
+    padding: 10px;
+    background: #eee;
+}
+
+#project-amd-config-info ul {
+    list-style: none;
+    margin-left: 50px;
 }
 

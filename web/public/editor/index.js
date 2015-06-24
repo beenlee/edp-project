@@ -128,17 +128,8 @@ define(function (require) {
                 dirInfoEl.innerHTML = data.dir;
                 dirEl.setAttribute('data-file', data.dir);
 
-                var amdInfo = data.amd;
-                var amdEl = getAmdConfEl();
-                var amdFileEl = amdEl.getElementsByTagName('span')[0];
-                if (!amdInfo) {
-                    amdEl.removeAttribute('data-file');
-                    amdFileEl.innerHTML = WARN_NOAMD;
-                }
-                else {
-                    amdEl.setAttribute('data-file', amdInfo.file);
-                    amdFileEl.innerHTML = path.basename(amdInfo.file);
-                }
+                showAmdInfo(data.amd)
+
 
                 var buildInfo = data.build;
                 var buildEl = getBuildConfEl();
@@ -155,6 +146,45 @@ define(function (require) {
                 check(currentProject.dir);
             }
         });
+    }
+
+    var PKGS_TPL = ''
+        + '<!-- for: ${packages} as ${pkg} -->'
+        +   '<li>${pkg.name} - ${pkg.depVersion}</li>'
+        + '<!-- /for -->';
+
+    var PATHS_TPL = ''
+        + '<!-- for: ${paths} as ${name}, ${value} -->'
+        +   '<li>${name} - ${value}</li>'
+        + '<!-- /for -->';
+
+    var pkgsRenderer = require('etpl').compile(PKGS_TPL);
+    var pathsRenderer = require('etpl').compile(PATHS_TPL);
+
+    function showAmdInfo(info) {
+        var el = getAmdConfEl();
+        var fileEl = el.getElementsByTagName('span')[0];
+        var infoEl = document.getElementById('project-amd-config-info');
+        if (!info) {
+            el.removeAttribute('data-file');
+            fileEl.innerHTML = WARN_NOAMD;
+            infoEl.style.display = 'none';
+        }
+        else {
+            el.setAttribute('data-file', info.file);
+            fileEl.innerHTML = path.basename(info.file);
+            infoEl.style.display = '';
+
+            var baseUrl = path.resolve(
+                path.dirname(info.file),
+                info.conf.baseUrl
+            );
+            document.getElementById('project-amd-baseurl').innerHTML = baseUrl;
+            document.getElementById('project-amd-paths').innerHTML =
+                pathsRenderer({packages: info.conf.paths || {}});
+            document.getElementById('project-amd-pkgs').innerHTML =
+                pkgsRenderer({packages: info.conf.packages || []});
+        }
     }
 
     /**
