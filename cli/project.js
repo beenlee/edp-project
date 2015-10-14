@@ -17,13 +17,13 @@ var cli = {};
  *
  * @type {string}
  */
-cli.description = '项目管理相关功能。';
+cli.description = '项目管理相关功能';
 
 /**
  * 模块命令行运行入口
  */
 cli.main = function () {
-    console.log( 'See `edp project --help`' );
+    console.log('See `edp project --help`');
 };
 
 /**
