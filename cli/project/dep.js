@@ -24,12 +24,12 @@ function output(deps, prefix) {
     prefix === undefined && (prefix = '');
     for (var i = 0, l =  deps.length; i < l; i++) {
         console.log(
-            chalk.gray(prefix + '|---- ')
+            chalk.gray(prefix + (i !== l - 1 ? '├── ' : '└── '))
             + chalk.bold.blue(deps[i].name)
             + ' (' + chalk.red(deps[i].version) + ')'
         );
         if (!!deps[i].deps) {
-            output(deps[i].deps, prefix + (i !== l - 1 ?  '|     ' : '      ') );
+            output(deps[i].deps, prefix + (i !== l - 1 ?  '|   ' : '    ') );
         }
         if (i === l-1) {
             console.log(chalk.gray(prefix));
