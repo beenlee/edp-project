@@ -3,6 +3,8 @@
  * @author lidianbin[dianbin.lee@gmail.com]
  */
 
+var chalk = require('chalk');
+
 /**
  * 命令行配置项
  *
@@ -18,9 +20,14 @@ var cli = {};
  */
 cli.description = '查看项目的依赖树';
 
-var chalk = require('chalk');
+/**
+ * 命令用法信息
+ *
+ * @type {string}
+ */
+cli.usage = 'edp project dep';
 
-function output(deps, prefix) {
+function outputTree(deps, prefix) {
     prefix === undefined && (prefix = '');
     for (var i = 0, l =  deps.length; i < l; i++) {
         console.log(
@@ -28,13 +35,18 @@ function output(deps, prefix) {
             + chalk.bold.blue(deps[i].name)
             + ' (' + chalk.red(deps[i].version) + ')'
         );
-        if (!!deps[i].deps) {
-            output(deps[i].deps, prefix + (i !== l - 1 ?  '|   ' : '    ') );
+        if (deps[i].deps) {
+            outputTree(deps[i].deps, prefix + (i !== l - 1 ?  '|   ' : '    ') );
         }
         if (i === l-1) {
             console.log(chalk.gray(prefix));
         }
-    };
+    }
+}
+
+function output(deps) {
+    console.log(chalk.bold.blue('/'));
+    outputTree(deps, '');
 }
 
 /**
@@ -46,13 +58,13 @@ cli.main = function () {
 
 
     if (projectInfo) {
-        var deps = project.dep(projectInfo);
+        var projectDeps = project.dep(projectInfo);
         //console.log(deps);
-        output(deps, '');
+        output(projectDeps);
     }
     else {
         var edp = require('edp-core');
-        edp.log.warn('[edp project updateLoaderConfig] You are not in project directory!');
+        edp.log.warn('[edp project dep] You are not in project directory!');
     }
 };
 
